@@ -21,7 +21,7 @@
    },
    "volumeMounts": {
     "d5c3dc20-228f-4eb0-9d79-8aa9c7d7f97b": {
-     "mountPath": "/app/uploads"
+     "mountPath": "/app/apps/sim/uploads"
     }
    },
    "variables": {
