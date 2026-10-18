@@ -1,0 +1,8 @@
+{
+  "name": "Sim | Open-Source AI Agent Workflow Builder (Full Stack)",
+  "short_name": "Sim Production",
+  "description": "Build and run AI agent workflows visually. App, realtime, cron, pgvector.",
+  "category": "AI/ML",
+  "image": "https://raw.githubusercontent.com/nomideusz/sim-railway/main/icon.png",
+  "id": "e1008456-7b2b-483f-a3fb-b8b8f8a10f2c"
+}

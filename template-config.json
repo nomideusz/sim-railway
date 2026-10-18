@@ -1,0 +1,309 @@
+{
+ "services": {
+  "89a03b7c-3bc7-43b0-8d91-19d528876254": {
+   "icon": "https://raw.githubusercontent.com/nomideusz/sim-railway/main/icon.png",
+   "name": "Sim",
+   "build": {},
+   "deploy": {
+    "startCommand": null,
+    "healthcheckPath": "/api/health",
+    "healthcheckTimeout": 600,
+    "restartPolicyType": "ON_FAILURE",
+    "restartPolicyMaxRetries": 10
+   },
+   "source": {
+    "image": "ghcr.io/simstudioai/simstudio:v0.9.26"
+   },
+   "networking": {
+    "serviceDomains": {
+     "<hasDomain>": {}
+    }
+   },
+   "volumeMounts": {
+    "d5c3dc20-228f-4eb0-9d79-8aa9c7d7f97b": {
+     "mountPath": "/app/uploads"
+    }
+   },
+   "variables": {
+    "SIM_ADMIN_EMAIL": {
+     "defaultValue": "",
+     "description": "Your email. Only this address can sign up and sign in until you add more (ALLOWED_LOGIN_EMAILS / ALLOWED_LOGIN_DOMAINS).",
+     "isOptional": false
+    },
+    "ALLOWED_LOGIN_EMAILS": {
+     "defaultValue": "${{SIM_ADMIN_EMAIL}}",
+     "description": "Comma-separated emails allowed to sign up and sign in. Add teammates here.",
+     "isOptional": false
+    },
+    "NEXT_PUBLIC_APP_URL": {
+     "defaultValue": "https://${{RAILWAY_PUBLIC_DOMAIN}}",
+     "description": "Public URL of Sim. Switch to your custom domain after adding one.",
+     "isOptional": false
+    },
+    "BETTER_AUTH_URL": {
+     "defaultValue": "${{NEXT_PUBLIC_APP_URL}}",
+     "description": "Auth base URL, same as the public URL.",
+     "isOptional": false
+    },
+    "BETTER_AUTH_SECRET": {
+     "defaultValue": "${{secret(64, \"0123456789abcdef\")}}",
+     "description": "Signs sessions. Shared with Realtime.",
+     "isOptional": false
+    },
+    "ENCRYPTION_KEY": {
+     "defaultValue": "${{secret(64, \"0123456789abcdef\")}}",
+     "description": "Encrypts stored credentials and environment variables. Never change or lose it.",
+     "isOptional": false
+    },
+    "API_ENCRYPTION_KEY": {
+     "defaultValue": "${{secret(64, \"0123456789abcdef\")}}",
+     "description": "Encrypts Sim API keys at rest. Never change or lose it.",
+     "isOptional": false
+    },
+    "INTERNAL_API_SECRET": {
+     "defaultValue": "${{secret(64, \"0123456789abcdef\")}}",
+     "description": "Authenticates Sim and Realtime to each other.",
+     "isOptional": false
+    },
+    "CRON_SECRET": {
+     "defaultValue": "${{secret(64, \"0123456789abcdef\")}}",
+     "description": "Authenticates the Cron service (schedules, polling triggers).",
+     "isOptional": false
+    },
+    "DATABASE_URL": {
+     "defaultValue": "postgresql://postgres:${{Postgres.POSTGRES_PASSWORD}}@${{Postgres.RAILWAY_PRIVATE_DOMAIN}}:5432/simstudio",
+     "description": "Postgres with pgvector (knowledge bases).",
+     "isOptional": false
+    },
+    "REDIS_URL": {
+     "defaultValue": "redis://default:${{Redis.REDIS_PASSWORD}}@${{Redis.RAILWAY_PRIVATE_DOMAIN}}:6379",
+     "description": "Redis for live status streaming and caches.",
+     "isOptional": false
+    },
+    "SOCKET_SERVER_URL": {
+     "defaultValue": "http://${{Realtime.RAILWAY_PRIVATE_DOMAIN}}:3002",
+     "description": "Realtime server over the private network.",
+     "isOptional": false
+    },
+    "NEXT_PUBLIC_SOCKET_URL": {
+     "defaultValue": "https://${{Realtime.RAILWAY_PUBLIC_DOMAIN}}",
+     "description": "Realtime server as the browser reaches it (live canvas collaboration).",
+     "isOptional": false
+    },
+    "STORAGE_PROVIDER": {
+     "defaultValue": "local",
+     "description": "Uploaded files go to the service's volume.",
+     "isOptional": false
+    },
+    "RAILWAY_RUN_UID": {
+     "defaultValue": "0",
+     "description": "Runs as root so Sim can write to the volume (Railway mounts it root-owned).",
+     "isOptional": false
+    },
+    "HOSTNAME": {
+     "defaultValue": "::",
+     "description": "Listen on IPv4 and IPv6, so Cron can reach Sim privately.",
+     "isOptional": false
+    },
+    "PORT": {
+     "defaultValue": "3000",
+     "description": "Port Sim listens on - leave as is.",
+     "isOptional": false
+    }
+   }
+  },
+  "0f76189a-84ec-47de-9631-f935f1903c85": {
+   "icon": "https://raw.githubusercontent.com/nomideusz/sim-railway/main/icon.png",
+   "name": "Realtime",
+   "build": {},
+   "deploy": {
+    "startCommand": null,
+    "healthcheckPath": "/health",
+    "healthcheckTimeout": 300,
+    "restartPolicyType": "ON_FAILURE",
+    "restartPolicyMaxRetries": 10
+   },
+   "source": {
+    "image": "ghcr.io/simstudioai/realtime:v0.9.26"
+   },
+   "networking": {
+    "serviceDomains": {
+     "<hasDomain>": {}
+    }
+   },
+   "variables": {
+    "NODE_ENV": {
+     "defaultValue": "production",
+     "description": "Production mode.",
+     "isOptional": false
+    },
+    "DATABASE_URL": {
+     "defaultValue": "postgresql://postgres:${{Postgres.POSTGRES_PASSWORD}}@${{Postgres.RAILWAY_PRIVATE_DOMAIN}}:5432/simstudio",
+     "description": "Same database as Sim.",
+     "isOptional": false
+    },
+    "REDIS_URL": {
+     "defaultValue": "redis://default:${{Redis.REDIS_PASSWORD}}@${{Redis.RAILWAY_PRIVATE_DOMAIN}}:6379",
+     "description": "Same Redis as Sim.",
+     "isOptional": false
+    },
+    "NEXT_PUBLIC_APP_URL": {
+     "defaultValue": "https://${{Sim.RAILWAY_PUBLIC_DOMAIN}}",
+     "description": "Sim's public URL, allowed as a socket origin. Match Sim's NEXT_PUBLIC_APP_URL if you add a custom domain.",
+     "isOptional": false
+    },
+    "BETTER_AUTH_URL": {
+     "defaultValue": "${{NEXT_PUBLIC_APP_URL}}",
+     "description": "Auth base URL, same as Sim's.",
+     "isOptional": false
+    },
+    "BETTER_AUTH_SECRET": {
+     "defaultValue": "${{Sim.BETTER_AUTH_SECRET}}",
+     "description": "Must match Sim.",
+     "isOptional": false
+    },
+    "INTERNAL_API_SECRET": {
+     "defaultValue": "${{Sim.INTERNAL_API_SECRET}}",
+     "description": "Must match Sim.",
+     "isOptional": false
+    },
+    "PORT": {
+     "defaultValue": "3002",
+     "description": "Port Realtime listens on - leave as is.",
+     "isOptional": false
+    }
+   }
+  },
+  "1b14d58c-1dcd-4340-9d42-48c5891806fb": {
+   "icon": "https://raw.githubusercontent.com/nomideusz/sim-railway/main/icon.png",
+   "name": "Migrations",
+   "build": {},
+   "deploy": {
+    "startCommand": "bun run db:migrate",
+    "healthcheckPath": null,
+    "restartPolicyType": "ON_FAILURE",
+    "restartPolicyMaxRetries": 10
+   },
+   "source": {
+    "image": "ghcr.io/simstudioai/migrations:v0.9.26"
+   },
+   "networking": {
+    "serviceDomains": {}
+   },
+   "variables": {
+    "DATABASE_URL": {
+     "defaultValue": "postgresql://postgres:${{Postgres.POSTGRES_PASSWORD}}@${{Postgres.RAILWAY_PRIVATE_DOMAIN}}:5432/simstudio",
+     "description": "Runs Sim's database migrations, then exits. Bump its image tag together with Sim and Realtime.",
+     "isOptional": false
+    }
+   }
+  },
+  "aa373380-64b8-42a9-bd0b-88b0d75d6221": {
+   "icon": "https://raw.githubusercontent.com/nomideusz/sim-railway/main/icon.png",
+   "name": "Cron",
+   "build": {},
+   "deploy": {
+    "startCommand": null,
+    "healthcheckPath": null,
+    "restartPolicyType": "ON_FAILURE",
+    "restartPolicyMaxRetries": 10
+   },
+   "source": {
+    "image": "ghcr.io/simstudioai/cron:v0.9.26"
+   },
+   "networking": {
+    "serviceDomains": {}
+   },
+   "variables": {
+    "SIM_URL": {
+     "defaultValue": "http://${{Sim.RAILWAY_PRIVATE_DOMAIN}}:3000",
+     "description": "Sim over the private network.",
+     "isOptional": false
+    },
+    "CRON_SECRET": {
+     "defaultValue": "${{Sim.CRON_SECRET}}",
+     "description": "Must match Sim.",
+     "isOptional": false
+    },
+    "TZ": {
+     "defaultValue": "UTC",
+     "description": "Time zone for the job schedule.",
+     "isOptional": false
+    }
+   }
+  },
+  "f873c009-271b-43fd-b4f7-58b90a720b81": {
+   "icon": "https://devicons.railway.app/i/postgresql.svg",
+   "name": "Postgres",
+   "build": {},
+   "deploy": {
+    "startCommand": null,
+    "healthcheckPath": null,
+    "restartPolicyType": "ON_FAILURE",
+    "restartPolicyMaxRetries": 10
+   },
+   "source": {
+    "image": "pgvector/pgvector:pg17"
+   },
+   "networking": {
+    "serviceDomains": {}
+   },
+   "volumeMounts": {
+    "5968cf5e-ffb2-41b1-bbf1-372075c677e4": {
+     "mountPath": "/var/lib/postgresql/data"
+    }
+   },
+   "variables": {
+    "POSTGRES_DB": {
+     "defaultValue": "simstudio",
+     "description": "Database name",
+     "isOptional": false
+    },
+    "POSTGRES_USER": {
+     "defaultValue": "postgres",
+     "description": "Database user",
+     "isOptional": false
+    },
+    "POSTGRES_PASSWORD": {
+     "defaultValue": "${{secret(32, \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789\")}}",
+     "description": "Auto-generated database password",
+     "isOptional": false
+    },
+    "PGDATA": {
+     "defaultValue": "/var/lib/postgresql/data/pgdata",
+     "description": "Data subdirectory - keeps Postgres happy on Railway volumes",
+     "isOptional": false
+    },
+    "RAILWAY_DEPLOYMENT_DRAINING_SECONDS": {
+     "defaultValue": "60",
+     "description": "Time for Postgres to shut down cleanly on redeploy",
+     "isOptional": false
+    }
+   }
+  },
+  "d2f48342-eec4-4075-9101-82587479852d": {
+   "icon": "https://devicons.railway.app/i/redis.svg",
+   "name": "Redis",
+   "build": {},
+   "deploy": {
+    "startCommand": "/bin/sh -c \"exec docker-entrypoint.sh redis-server --requirepass $REDIS_PASSWORD --save '' --appendonly no\"",
+    "healthcheckPath": null,
+    "restartPolicyType": "ON_FAILURE",
+    "restartPolicyMaxRetries": 10
+   },
+   "source": {
+    "image": "redis:7-alpine"
+   },
+   "networking": {
+    "serviceDomains": {}
+   },
+   "variables": {
+    "REDIS_PASSWORD": {
+     "defaultValue": "${{secret(32, \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789\")}}",
+     "description": "Auto-generated Redis password",
+     "isOptional": false
+    }
+   }
+  }
+ }
+}
