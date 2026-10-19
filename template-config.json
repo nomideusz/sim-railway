@@ -1,7 +1,7 @@
 {
  "services": {
   "89a03b7c-3bc7-43b0-8d91-19d528876254": {
-   "icon": "https://raw.githubusercontent.com/nomideusz/sim-railway/main/icon.png",
+   "icon": "https://raw.githubusercontent.com/two-workspaces/sim/main/icon.png",
    "name": "Sim",
    "build": {},
    "deploy": {
@@ -113,7 +113,7 @@
    }
   },
   "0f76189a-84ec-47de-9631-f935f1903c85": {
-   "icon": "https://raw.githubusercontent.com/nomideusz/sim-railway/main/icon.png",
+   "icon": "https://raw.githubusercontent.com/two-workspaces/sim/main/icon.png",
    "name": "Realtime",
    "build": {},
    "deploy": {
@@ -175,7 +175,7 @@
    }
   },
   "1b14d58c-1dcd-4340-9d42-48c5891806fb": {
-   "icon": "https://raw.githubusercontent.com/nomideusz/sim-railway/main/icon.png",
+   "icon": "https://raw.githubusercontent.com/two-workspaces/sim/main/icon.png",
    "name": "Migrations",
    "build": {},
    "deploy": {
@@ -199,7 +199,7 @@
    }
   },
   "aa373380-64b8-42a9-bd0b-88b0d75d6221": {
-   "icon": "https://raw.githubusercontent.com/nomideusz/sim-railway/main/icon.png",
+   "icon": "https://raw.githubusercontent.com/two-workspaces/sim/main/icon.png",
    "name": "Cron",
    "build": {},
    "deploy": {

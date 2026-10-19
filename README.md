@@ -38,7 +38,7 @@ What's set up for you:
 
 - [Sim documentation](https://docs.sim.ai)
 - [Sim on GitHub](https://github.com/simstudioai/sim)
-- [Template source on GitHub](https://github.com/nomideusz/sim-railway)
+- [Template source on GitHub](https://github.com/two-workspaces/sim)
 
 ### Implementation Details
 
