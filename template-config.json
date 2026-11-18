@@ -1,7 +1,7 @@
 {
  "services": {
   "89a03b7c-3bc7-43b0-8d91-19d528876254": {
-   "icon": "https://raw.githubusercontent.com/two-workspaces/sim/main/icon.png",
+   "icon": "https://raw.githubusercontent.com/simstudioai/sim/edf5f0a47da8147466cb893c0a1666058331d42e/apps/sim/public/brandbook/icon/green.svg",
    "name": "Sim",
    "build": {},
    "deploy": {
@@ -12,7 +12,7 @@
     "restartPolicyMaxRetries": 10
    },
    "source": {
-    "image": "ghcr.io/simstudioai/simstudio:v0.9.26"
+    "image": "ghcr.io/simstudioai/simstudio:v0.9.62"
    },
    "networking": {
     "serviceDomains": {
@@ -124,7 +124,7 @@
     "restartPolicyMaxRetries": 10
    },
    "source": {
-    "image": "ghcr.io/simstudioai/realtime:v0.9.26"
+    "image": "ghcr.io/simstudioai/realtime:v0.9.62"
    },
    "networking": {
     "serviceDomains": {
@@ -185,7 +185,7 @@
     "restartPolicyMaxRetries": 10
    },
    "source": {
-    "image": "ghcr.io/simstudioai/migrations:v0.9.26"
+    "image": "ghcr.io/simstudioai/migrations:v0.9.62"
    },
    "networking": {
     "serviceDomains": {}
@@ -194,6 +194,11 @@
     "DATABASE_URL": {
      "defaultValue": "postgresql://postgres:${{Postgres.POSTGRES_PASSWORD}}@${{Postgres.RAILWAY_PRIVATE_DOMAIN}}:5432/simstudio",
      "description": "Runs Sim's database migrations, then exits. Bump its image tag together with Sim and Realtime.",
+     "isOptional": false
+    },
+    "ENCRYPTION_KEY": {
+     "defaultValue": "${{Sim.ENCRYPTION_KEY}}",
+     "description": "Sim's credential key, so migrations can seal OAuth tokens stored before sealing was on - leave as is",
      "isOptional": false
     }
    }
@@ -209,7 +214,7 @@
     "restartPolicyMaxRetries": 10
    },
    "source": {
-    "image": "ghcr.io/simstudioai/cron:v0.9.26"
+    "image": "ghcr.io/simstudioai/cron:v0.9.62"
    },
    "networking": {
     "serviceDomains": {}

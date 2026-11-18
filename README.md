@@ -6,7 +6,7 @@
 
 ## About Hosting Sim
 
-This template runs the full Sim stack, version 0.9.26, as six Railway services from Sim's official images:
+This template runs the full Sim stack, version 0.9.62, as six Railway services from Sim's official images:
 
 | Service | What it does |
 |---|---|
@@ -21,7 +21,7 @@ What's set up for you:
 
 - **Only you can sign up.** Sim's default lets anyone with the URL create an account. Here, only the email you enter at deploy time (`SIM_ADMIN_EMAIL`) can sign up or sign in. Everyone else gets "Access restricted".
 - **All secrets are generated.** That covers session signing, credential encryption, API-key encryption, the internal service secret and the cron secret. The services that need a secret reference it from Sim, so nothing has to be copied by hand.
-- **Pinned versions.** All four Sim images are pinned to `v0.9.26`, so a redeploy never upgrades one service ahead of the others.
+- **Pinned versions.** All four Sim images are pinned to `v0.9.62`, so a redeploy never upgrades one service ahead of the others.
 
 ## Common Use Cases
 
