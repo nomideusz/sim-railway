@@ -120,8 +120,7 @@
     "startCommand": null,
     "healthcheckPath": "/health",
     "healthcheckTimeout": 300,
-    "restartPolicyType": "ON_FAILURE",
-    "restartPolicyMaxRetries": 10
+    "restartPolicyType": "ALWAYS"
    },
    "source": {
     "image": "ghcr.io/simstudioai/realtime:v0.9.62"
